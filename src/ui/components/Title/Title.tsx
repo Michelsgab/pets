@@ -1,10 +1,15 @@
 import { TitleStyled, Subtitle } from "./Title.style";
 
-export default function Title() {
+interface TitleProps{
+    title: string;
+    subtitle?: string | JSX.Element;
+}
+
+export default function Title({ title, subtitle }: TitleProps) {
   return (
     <>
-      <TitleStyled>daklda</TitleStyled>
-      <Subtitle>dasda</Subtitle>
+      <TitleStyled>{title}</TitleStyled>
+      <Subtitle>{subtitle}</Subtitle>
     </>
   );
 }
