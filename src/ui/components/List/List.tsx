@@ -8,30 +8,33 @@ import {
   Description,
 } from "./List.style";
 import { Pet } from "../../../data/@types/Pet";
+import { TextService } from "../../../data/services/TextService";
 
 interface ListProps {
   pets: Pet[];
 }
 
-export default function List({pets}: ListProps) {
+export default function List({ pets }: ListProps) {
+  const maxTextSize = 200;
+
   return (
     <ListStyled>
-      <ListItem>
-        <Photo
-          src={
-            "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"
-          }
-        />
-        <Info>
-          <Name>Max</Name>
-          <Description>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-          </Description>
-          <Button variant={"contained"} fullWidth>
-            Adopt
-          </Button>
-        </Info>
-      </ListItem>
+      {pets.map((pet) => (
+        <>
+          <ListItem key={pet.id}>
+            <Photo src={pet.photo} alt={pet.name} />
+            <Info>
+              <Name>Max</Name>
+              <Description>
+                {TextService.limitText(pet.history, maxTextSize)}
+              </Description>
+              <Button variant={"contained"} fullWidth>
+                Adopt {pet.name}
+              </Button>
+            </Info>
+          </ListItem>
+        </>
+      ))}
     </ListStyled>
   );
 }
