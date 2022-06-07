@@ -9,8 +9,22 @@ import {
   Button,
   Snackbar,
 } from "@mui/material";
+import { useIndex } from "../data/hooks/pages/useIndex";
 
 const Home: NextPage = () => {
+  const {
+    petsList,
+    selectPet,
+    setSelectPet,
+    email,
+    setEmail,
+    value,
+    setValue,
+    message,
+    setMessage,
+    adopt,
+  } = useIndex();
+
   return (
     <div>
       <Title
@@ -23,43 +37,50 @@ const Home: NextPage = () => {
         }
       />
 
-      <List
-        pets={[
-          {
-            id: 1,
-            name: "Max",
-            history: "djskldas",
-            photo:
-              "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg",
-          },
-          {
-            id: 2,
-            name: "Totty",
-            history: "eiqwopeiqwo",
-            photo:
-              "https://media.istockphoto.com/photos/playful-happy-smiling-pet-dog-running-in-the-grass-picture-id1320018473?b=1&k=20&m=1320018473&s=170667a&w=0&h=Q-U9yI4JjCJYSAzXZwpnM4HuaXPzo4K-vBsgO7lanyo=",
-          },
-        ]}
-      />
+      <List pets={petsList} onSelect={(pet) => setSelectPet(pet)} />
 
-      <Dialog open={false} fullWidth PaperProps={{ sx: { p: 5 } }}>
+      <Dialog
+        open={selectPet !== null}
+        fullWidth
+        PaperProps={{ sx: { p: 5 } }}
+        onClose={() => setSelectPet(null)}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField label={"E-mail"} fullWidth type={"email"} />
+            <TextField
+              label={"E-mail"}
+              fullWidth
+              type={"email"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Grid>
           <Grid item xs={12}>
-            <TextField label={"Value"} fullWidth type={"number"} />
+            <TextField
+              label={"Value"}
+              fullWidth
+              type={"number"}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
           </Grid>
         </Grid>
         <DialogActions sx={{ mt: 5 }}>
-          <Button color={"secondary"}> Cancel </Button>
-          <Button color={"primary"} variant={"contained"}>
+          <Button color={"secondary"} onClick={() => setSelectPet(null)}>
+            Cancel
+          </Button>
+          <Button color={"primary"} variant={"contained"} onClick={() => adopt()}>
             Confirm
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Snackbar open={false} message={"Congratulations!"} />
+      <Snackbar
+        open={message.length > 0}
+        message={message}
+        autoHideDuration={2500}
+        onClose={() => setMessage("")}
+      />
     </div>
   );
 };

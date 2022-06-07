@@ -12,14 +12,15 @@ import { TextService } from "../../../data/services/TextService";
 
 interface ListProps {
   pets: Pet[];
+  onSelect: (pet: Pet) => void;
 }
 
-export default function List({ pets }: ListProps) {
+export default function List(props: ListProps) {
   const maxTextSize = 200;
 
   return (
     <ListStyled>
-      {pets.map((pet) => (
+      {props.pets.map(pet => (
         <>
           <ListItem key={pet.id}>
             <Photo src={pet.photo} alt={pet.name} />
@@ -28,7 +29,7 @@ export default function List({ pets }: ListProps) {
               <Description>
                 {TextService.limitText(pet.history, maxTextSize)}
               </Description>
-              <Button variant={"contained"} fullWidth>
+              <Button variant={"contained"} fullWidth onClick={() => props.onSelect(pet)} >
                 Adopt {pet.name}
               </Button>
             </Info>
