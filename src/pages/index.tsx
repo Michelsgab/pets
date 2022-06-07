@@ -1,6 +1,14 @@
 import type { NextPage } from "next";
 import List from "../ui/components/List/List";
 import Title from "../ui/components/Title/Title";
+import {
+  Dialog,
+  DialogActions,
+  TextField,
+  Grid,
+  Button,
+  Snackbar,
+} from "@mui/material";
 
 const Home: NextPage = () => {
   return (
@@ -33,6 +41,25 @@ const Home: NextPage = () => {
           },
         ]}
       />
+
+      <Dialog open={false} fullWidth PaperProps={{ sx: { p: 5 } }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField label={"E-mail"} fullWidth type={"email"} />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label={"Value"} fullWidth type={"number"} />
+          </Grid>
+        </Grid>
+        <DialogActions sx={{ mt: 5 }}>
+          <Button color={"secondary"}> Cancel </Button>
+          <Button color={"primary"} variant={"contained"}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar open={false} message={"Congratulations!"} />
     </div>
   );
 };
