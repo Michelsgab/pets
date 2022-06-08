@@ -15,7 +15,42 @@ export function useIndex() {
     });
   }, []);
 
-  function adopt() {}
+  useEffect(() => {
+    if(selectPet === null) {
+      clearForm();
+    }
+  }, [selectPet])
+
+  function adopt() {
+    if (selectPet !== null) {
+      if (validateDateAdopt()) {
+        ApiService.post("/adocoes", {
+          pet_id: selectPet.id,
+          email,
+          value,
+        })
+          .then(() => {
+            setSelectPet(null);
+            setMessage("Pet Adopt Successfully");
+            // clearForm();
+          })
+          .catch((error) => {
+            setMessage(error.response?.data.message);
+          });
+      } else {
+        setMessage("Fill in all fields");
+      }
+    }
+  }
+
+  function validateDateAdopt() {
+    return email.length > 0 && value.length > 0;
+  }
+
+  function clearForm() {
+    setEmail("")
+    setValue("")
+  }
 
   return {
     petsList,
